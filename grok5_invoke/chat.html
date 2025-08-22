@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 专家咨询 - 医疗与保险助手</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="/css/chat.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar" id="navbar">
+            <h1 class="logo">医疗与保险助手</h1>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="enterprise.html">企业专属</a>
+                <a href="index.html#cases">成功案例</a>
+                <a href="index.html#pricing">定价</a>
+                <a href="chat.html" class="btn-nav active">立即开始</a>
+            </div>
+        </nav>
+        <div class="main-content">
+            <!-- 修改：调整展开侧边栏按钮，始终可见，动态显示/隐藏 -->
+            <button class="toggle-sidebar-open" id="toggle-sidebar-open-btn" aria-label="打开侧边栏">
+                <i class="fas fa-bars"></i> 展开侧边栏
+            </button>
+            <div class="sidebar" id="sidebar">
+                <button class="toggle-sidebar-btn" id="toggle-sidebar-btn" aria-label="收起侧边栏">
+                    <i class="fas fa-chevron-left"></i> 收起侧边栏
+                </button>
+                <h2>会话列表</h2>
+                <button id="new-session-btn" class="btn-sidebar"><i class="fas fa-plus"></i> 新建会话</button>
+                <!-- 修改：确保 session-list 有明确的最大高度，CSS 已控制滚动条 -->
+                <ul id="session-list" style="max-height: calc(100vh - 220px); overflow-y: auto;"></ul>
+            </div>
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2 id="expert-title">医疗问诊专家</h2>
+                    <select id="expert-select" aria-label="选择专家">
+                        <option value="medical" selected>医疗问诊专家</option>
+                        <option value="insurance">保险资产配置专家</option>
+                    </select>
+                </div>
+                <!-- 修改：添加 data-auto-scroll 属性，便于 JS 控制自动滚动 -->
+                <div id="chat-box" data-auto-scroll="true">
+                    <div class="placeholder">欢迎开始咨询！请输入您的问题，或点击下方按钮填写问卷。</div>
+                </div>
+                <div class="input-container">
+                    <textarea id="user-input" placeholder="请输入您的问题或问卷信息..." rows="1" aria-label="输入问题"></textarea>
+                    <div class="input-buttons">
+                        <button id="send-btn" aria-label="发送消息"><i class="fas fa-paper-plane"></i> 发送</button>
+                        <label for="file-upload" class="file-upload-btn" aria-label="上传文件">
+                            <i class="fas fa-upload"></i> 上传文件
+                            <input type="file" id="file-upload" accept=".pdf,.jpg,.png" style="display: none;">
+                        </label>
+                        <button id="insurance-form-btn" style="display: none;">填写保险问卷</button>
+                        <button id="medical-form-btn">填写医疗问卷</button>
+                    </div>
+                    <div id="error-message" class="error-message" style="display: none; color: red; margin-top: 10px;"></div>
+                </div>
+                <div id="insurance-form" class="form-modal">
+                    <div class="form-content">
+                        <div class="form-header">
+                            <h3>保险需求问卷</h3>
+                            <button type="button" class="form-close-btn" id="cancel-insurance-form-btn" aria-label="关闭保险问卷"><i class="fas fa-times"></i></button>
+                        </div>
+                        <form id="insurance-form-content">
+                            <label>您的年龄：<input type="number" id="form-age" min="18" max="100" required aria-required="true"></label>
+                            <label>年收入（元）：<input type="number" id="form-income" min="0" required aria-required="true"></label>
+                            <label>健康状况：<input type="text" id="form-health" placeholder="如 无、慢性病等" required aria-required="true"></label>
+                            <label>保险需求：<select id="form-needs" required aria-required="true">
+                                <option value="">请选择</option>
+                                <option value="医疗保险">医疗保险</option>
+                                <option value="意外保险">意外保险</option>
+                                <option value="寿险">寿险</option>
+                                <option value="养老保险">养老保险</option>
+                            </select></label>
+                            <label>风险承受能力：<select id="form-risk" required aria-required="true">
+                                <option value="">请选择</option>
+                                <option value="低">低</option>
+                                <option value="中">中</option>
+                                <option value="高">高</option>
+                            </select></label>
+                            <div class="form-buttons">
+                                <button type="submit" id="submit-insurance-form-btn">提交问卷</button>
+                                <button type="button" id="cancel-insurance-form-btn-secondary">取消</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div id="medical-form" class="form-modal">
+                    <div class="form-content">
+                        <div class="form-header">
+                            <h3>医疗症状问卷</h3>
+                            <button type="button" class="form-close-btn" id="cancel-medical-form-btn" aria-label="关闭医疗问卷"><i class="fas fa-times"></i></button>
+                        </div>
+                        <form id="medical-form-content">
+                            <label>您的年龄：<input type="number" id="medical-form-age" min="0" max="120" required aria-required="true"></label>
+                            <label>性别：<select id="medical-form-gender" required aria-required="true">
+                                <option value="">请选择</option>
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                                <option value="其他">其他</option>
+                            </select></label>
+                            <label>主要症状：<textarea id="medical-form-symptoms" placeholder="如 发热、咳嗽等" required aria-required="true"></textarea></label>
+                            <label>症状持续时间：<input type="text" id="medical-form-duration" placeholder="如 3天、1周等" required aria-required="true"></label>
+                            <label>既往病史：<textarea id="medical-form-history" placeholder="如 无、高血压等" required aria-required="true"></textarea></label>
+                            <div class="form-buttons">
+                                <button type="submit" id="submit-medical-form-btn">提交问卷</button>
+                                <button type="button" id="cancel-medical-form-btn-secondary">取消</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>© 2025 医疗与保险助手. 保留所有权利。</p>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="/js/chat.js"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'PingFang SC', Arial, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #e6f0fa 0%, #f7f9fc 100%);
+    color: #2c3e50;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #1a73e8;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #1a73e8;
+}
+
+.nav-links a.btn-nav {
+    background: linear-gradient(90deg, #1a73e8, #34c759);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.nav-links a.btn-nav:hover {
+    transform: scale(1.05);
+}
+
+.enterprise-services {
+    padding: 40px 0;
+    text-align: center;
+}
+
+.enterprise-services h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #5a6a7a;
+    margin-bottom: 30px;
+}
+
+.plan-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.plan-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.plan-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.plan-card h2 {
+    font-size: 1.6rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.plan-card p {
+    font-size: 0.95rem;
+    color: #5a6a7a;
+    margin-bottom: 15px;
+}
+
+.plan-card ul {
+    list-style: none;
+    margin-bottom: 15px;
+}
+
+.plan-card ul li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.plan-card .price {
+    font-size: 1.6rem;
+    color: #1a73e8;
+    margin-bottom: 15px;
+}
+
+.btn-plan {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #1a73e8, #34c759);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: transform 0.3s ease;
+}
+
+.btn-plan:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* 可添加汉堡菜单 */
+    }
+    .plan-row {
+        grid-template-columns: 1fr;
+    }
+}
